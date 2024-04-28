@@ -5,7 +5,7 @@ export default function Logo() {
     <div className="flex gap-2 items-center">
       <img
         src={logo}
-        className="bg-transparent h-10 w-10"
+        className="bg-transparent h-9 w-9"
         alt="logo-doc-analyzer"
       />
       <span className="text-s ">DocAnalyzer</span>
