@@ -1,3 +1,9 @@
+import HeroHeader from "./HeroHeader";
+
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div className="w-full">
+      <HeroHeader />
+    </div>
+  );
 }

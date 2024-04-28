@@ -6,7 +6,7 @@ export default function Logo() {
     <Link to="/">
       <img
         src={logo}
-        className="bg-transparent h-9 w-9"
+        className="bg-transparent h-10 w-10"
         alt="logo-doc-analyzer"
       />
     </Link>
