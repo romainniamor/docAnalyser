@@ -2,6 +2,7 @@ import { MdFileUpload } from "react-icons/md";
 import Button from "../../components/reusableUi/Button";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef } from "react";
+import axios from "axios";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -16,12 +17,27 @@ export default function Analyzer() {
     setFileInfo({
       fileName: file.name,
     });
+    sendFile();
   };
 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+  };
+
+  const sendFile = () => {
+    if (!fileInfo) {
+      return;
+    }
+    axios
+      .post("url", { file: fileInfo })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
