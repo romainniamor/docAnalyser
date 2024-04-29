@@ -2,7 +2,7 @@ import { MdFileUpload } from "react-icons/md";
 import Button from "../../components/reusableUi/Button";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import { getData, sendFile } from "../../api/analyzerApi";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -11,48 +11,26 @@ export default function Analyzer() {
 
   //will be removed
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/");
-        const data = response.data;
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
+    getData();
   }, []);
 
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      return;
+    const file = e.target.files[0]; // Récupération du fichier sélectionné
+    if (file) {
+      setFileInfo({
+        fileName: file.name,
+      });
     }
-    setFileInfo({
-      fileName: file.name,
-    });
-    sendFile();
+    const formData = new FormData();
+    formData.append("file", file); // Ajout du fichier à formData
+    console.log("file", file, formData);
+    sendFile(formData);
   };
 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
-
-  const sendFile = () => {
-    if (!fileInfo) {
-      return;
-    }
-    axios
-      .post("url", { file: fileInfo })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (

@@ -1,9 +1,7 @@
 from business.docToText import get_pdf_text
 from fastapi.middleware.cors import CORSMiddleware
 
-
-
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 
 app = FastAPI()
 
@@ -26,11 +24,11 @@ def read_root():
     return "Welcome to docAnalyzer API!"
 
 @app.post("/upload-pdf")
-async def upload_pdf(file):
+async def upload_pdf(file: UploadFile = File(...)):
     #get pdf text
     raw_text = get_pdf_text(file)
     print('raw_text', raw_text)
 
-    return {"message": "pdf uploaded and treated"}
+    return {"message": "pdf uploaded and treated backend"}
 
 
