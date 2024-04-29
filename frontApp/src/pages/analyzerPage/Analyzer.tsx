@@ -1,13 +1,28 @@
 import { MdFileUpload } from "react-icons/md";
 import Button from "../../components/reusableUi/Button";
 import { GrPowerReset } from "react-icons/gr";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileInfo, setFileInfo] = useState<File | null>(null as File | null);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
+
+  //will be removed
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/");
+        const data = response.data;
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
