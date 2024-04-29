@@ -9,6 +9,8 @@ export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileInfo, setFileInfo] = useState<File | null>(null as File | null);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
+  const [userRequest, setUserRequest] = useState<string>("");
+  const [messages, setMessages] = useState<string[]>([]);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]; // Récupération du fichier sélectionné
@@ -21,12 +23,22 @@ export default function Analyzer() {
     formData.append("file", file); // Ajout du fichier à formData
 
     sendFile(formData);
+    setIsUploaded(true);
   };
 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+  };
+
+  const handleChange = (e) => {
+    setUserRequest(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("submit");
   };
 
   return (
@@ -72,21 +84,21 @@ export default function Analyzer() {
           </div>
           <div className="flex justify-center items-center  py-4">
             <form
-              onSubmit={() => {
-                console.log("submit");
-              }}
-              className="flex gap-2 w-5/6 py-3 px-4 border border-blue-200 bg-white rounded-3xl shadow-sm "
+              onSubmit={handleSubmit}
+              className={`flex gap-2 w-5/6 py-3 px-4 border border-blue-200 bg-white rounded-3xl shadow-sm  ${
+                !isUploaded && "opacity-50"
+              }`}
             >
               <input
-                disabled={""}
+                disabled={!isUploaded}
                 type="text"
                 placeholder="Your message..."
                 name="user_request"
-                value={""}
-                onChange={() => {}}
+                value={userRequest}
+                onChange={handleChange}
                 className="flex-1 focus:outline-none "
               />
-              <Button label="Send" />
+              <Button label="Send" disable={!isUploaded} />
             </form>
           </div>
         </div>
