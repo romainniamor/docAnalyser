@@ -3,6 +3,17 @@ from fastapi import UploadFile
 from langchain.text_splitter import CharacterTextSplitter
 import io
 
+# def extract_text_from_pdf(pdf_path):
+#     try:
+#         text = ""
+#         with open(pdf_path, "rb") as file:
+#             pdf_reader = PdfReader(file)
+#             for page in pdf_reader.pages:
+#                 text += page.extract_text()
+#         return text
+#     except Exception as e:
+#         return str(e)
+
 
  #extract text from pdf https://pypi.org/project/PyPDF2/
 def get_pdf_text(file: UploadFile):
@@ -14,6 +25,8 @@ def get_pdf_text(file: UploadFile):
         text += page.extract_text()
 
     return text
+
+
 
 #creation list of text chunks cut by 1000 characters with 200 characters overlap between each chunk
 def get_text_chunks(text):

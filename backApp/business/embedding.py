@@ -6,9 +6,9 @@ from langchain.memory import ConversationBufferMemory
 from langchain_openai import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 
-
-
 from dotenv import load_dotenv
+
+
 
 load_dotenv()
 
