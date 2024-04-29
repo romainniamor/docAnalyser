@@ -1,23 +1,59 @@
 import { MdFileUpload } from "react-icons/md";
 import Button from "../../components/reusableUi/Button";
 import { GrPowerReset } from "react-icons/gr";
+import { useState, useRef } from "react";
 
 export default function Analyzer() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileInfo, setFileInfo] = useState<File | null>(null as File | null);
+  const [isUploaded, setIsUploaded] = useState<boolean>(false);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+    setFileInfo({
+      fileName: file.name,
+    });
+  };
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-[660px]  flex flex-col mt-10 bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="w-full b py-2 px-5 border-b shadow-md flex justify-between">
-          <Button label="Upload File" icon={<MdFileUpload />}>
+          <div className="flex items-center gap-2">
             <input
+              ref={fileInputRef}
               id="fileInput"
               className="hidden"
               name="pdfFile"
               type="file"
               accept=".pdf"
-              onChange={() => {}}
+              onChange={handleFileUpload}
             />
-          </Button>
-          <button className="text-xl text-gray-600">
+
+            <label htmlFor="fileInput">
+              <Button
+                label="Upload File"
+                icon={<MdFileUpload />}
+                onClick={handleButtonClick}
+              />
+            </label>
+            {fileInfo && (
+              <p className="text-sm text-gray-500">{fileInfo.fileName}</p>
+            )}
+          </div>
+          <button
+            className="text-xl text-gray-600"
+            onClick={() => setFileInfo(null)}
+          >
             <GrPowerReset />
           </button>
         </div>
