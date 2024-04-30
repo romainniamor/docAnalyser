@@ -3,9 +3,10 @@ import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef, useEffect } from "react";
 import { sendFile, sendRequest } from "../../api/analyzerApi";
-import DialogueBox from "./DialogueBox";
+
 import LogoButton from "../../components/reusableUi/LogoButton";
 import Loader from "../../components/reusableUi/Loader";
+import Conversation from "./Conversation";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -31,7 +32,7 @@ export default function Analyzer() {
     setIsUploaded(true);
   };
 
-  const handleButtonClick = () => {
+  const handleInputType = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -97,7 +98,7 @@ export default function Analyzer() {
               <PrimaryButton
                 label="Upload File"
                 icon={<MdFileUpload />}
-                onClick={handleButtonClick}
+                onClick={handleInputType}
               />
             </label>
             {fileInfo && (
@@ -112,17 +113,9 @@ export default function Analyzer() {
             className="w-full h-[600px] overflow-y-scroll flex flex-col gap-3 p-4 "
           >
             {messages.map((message, index) => (
-              <div className="flex flex-col gap-2" key={index}>
-                <DialogueBox
-                  content={message.question}
-                  position={"justify-start"}
-                />
-                <DialogueBox
-                  content={message.response}
-                  position={"justify-end"}
-                />
-              </div>
+              <Conversation key={index} message={message} />
             ))}
+
             {isLoading && <Loader />}
           </div>
           <div className="flex justify-center items-center  py-4">
