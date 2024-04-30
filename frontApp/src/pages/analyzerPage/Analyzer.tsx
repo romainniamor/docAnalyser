@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import { sendFile, sendRequest } from "../../api/analyzerApi";
 import DialogueBox from "./DialogueBox";
 import LogoButton from "../../components/reusableUi/LogoButton";
+import Loader from "../../components/reusableUi/Loader";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -12,7 +13,7 @@ export default function Analyzer() {
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [userRequest, setUserRequest] = useState<string>("");
   const [messages, setMessages] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]; // Récupération du fichier sélectionné
@@ -106,6 +107,7 @@ export default function Analyzer() {
                 />
               </div>
             ))}
+            {isLoading && <Loader />}
           </div>
           <div className="flex justify-center items-center  py-4">
             <form
