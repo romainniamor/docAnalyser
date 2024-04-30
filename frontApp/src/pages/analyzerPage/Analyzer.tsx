@@ -134,7 +134,7 @@ export default function Analyzer() {
                 onChange={handleChange}
                 className="flex-1 focus:outline-none "
               />
-              <PrimaryButton label="Send" disable={!isUploaded} />
+              <PrimaryButton label="Send" disabled={!isUploaded} />
             </form>
           </div>
         </div>
