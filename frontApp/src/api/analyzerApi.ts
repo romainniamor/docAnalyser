@@ -2,17 +2,27 @@ import axios from "axios";
 
 const url: string = "http://localhost:8000/";
 
-export const sendFile = (data) => {
-  axios
-    .post(`${url}upload-pdf`, data, {
+export const sendFile = async (data) => {
+  try {
+    const response = await axios.post(`${url}upload-pdf`, data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    })
-    .then((res) => {
-      console.log("response", res);
-    })
-    .catch((err) => {
-      console.log("error", err.message);
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendRequest = async (data) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/user-request",
+      data
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

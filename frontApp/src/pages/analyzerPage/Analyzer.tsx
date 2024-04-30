@@ -2,9 +2,8 @@ import { MdFileUpload } from "react-icons/md";
 import Button from "../../components/reusableUi/Button";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef } from "react";
-import { sendFile } from "../../api/analyzerApi";
+import { sendFile, sendRequest } from "../../api/analyzerApi";
 import DialogueBox from "./DialogueBox";
-import axios from "axios";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -43,17 +42,12 @@ export default function Analyzer() {
     const formData = new FormData();
     formData.append("user_request", userRequest);
     setIsLoading(true);
-
     setUserRequest("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/user-request",
-        formData
-      );
-      const conversation = response.data.conversation;
+      const data = await sendRequest(formData);
+      const conversation = data.conversation;
       const lastMessages = conversation[conversation.length - 1];
-
       setMessages([...messages, lastMessages]);
       setIsLoading(false);
       setUserRequest("");
