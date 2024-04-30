@@ -1,7 +1,7 @@
 import { MdFileUpload } from "react-icons/md";
 import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 import { GrPowerReset } from "react-icons/gr";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { sendFile, sendRequest } from "../../api/analyzerApi";
 import DialogueBox from "./DialogueBox";
 import LogoButton from "../../components/reusableUi/LogoButton";
@@ -13,7 +13,9 @@ export default function Analyzer() {
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [userRequest, setUserRequest] = useState<string>("");
   const [messages, setMessages] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const containerRef = useRef(null);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]; // Récupération du fichier sélectionné
@@ -65,6 +67,17 @@ export default function Analyzer() {
     setMessages([]);
   };
 
+  const scrollToBottom = () => {
+    if (!containerRef.current) {
+      return;
+    }
+    containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-[660px]  flex flex-col mt-10 bg-white rounded-lg shadow-lg overflow-hidden">
@@ -94,7 +107,10 @@ export default function Analyzer() {
           <LogoButton icon={<GrPowerReset />} onClick={handleReset} />
         </div>
         <div className="flex-1 bg-gradient-to-b from-transparent to-red-200">
-          <div className="w-full h-[600px] overflow-y-scroll flex flex-col gap-3 p-4">
+          <div
+            ref={containerRef}
+            className="w-full h-[600px] overflow-y-scroll flex flex-col gap-3 p-4 "
+          >
             {messages.map((message, index) => (
               <div className="flex flex-col gap-2" key={index}>
                 <DialogueBox
