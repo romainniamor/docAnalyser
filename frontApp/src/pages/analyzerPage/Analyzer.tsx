@@ -4,6 +4,7 @@ import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef } from "react";
 import { sendFile } from "../../api/analyzerApi";
 import DialogueBox from "./DialogueBox";
+import axios from "axios";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -11,6 +12,7 @@ export default function Analyzer() {
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [userRequest, setUserRequest] = useState<string>("");
   const [messages, setMessages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]; // Récupération du fichier sélectionné
@@ -36,9 +38,28 @@ export default function Analyzer() {
     setUserRequest(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("submit");
+    const formData = new FormData();
+    formData.append("user_request", userRequest);
+    setIsLoading(true);
+
+    setUserRequest("");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/user-request",
+        formData
+      );
+      const conversation = response.data.conversation;
+      const lastMessages = conversation[conversation.length - 1];
+
+      setMessages([...messages, lastMessages]);
+      setIsLoading(false);
+      setUserRequest("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -75,12 +96,19 @@ export default function Analyzer() {
           </button>
         </div>
         <div className="flex-1 bg-gradient-to-b from-transparent to-red-200">
-          <div className="w-full h-[600px] overflow-y-scroll flex flex-col gap-4 p-4">
-            <DialogueBox
-              content="Hi there, i'm your personal assistant and a very fast reader,
-                upload a pdf doc and let see what i can do for you!"
-              position={"justify-end"}
-            />
+          <div className="w-full h-[600px] overflow-y-scroll flex flex-col gap-3 p-4">
+            {messages.map((message, index) => (
+              <div className="flex flex-col gap-2" key={index}>
+                <DialogueBox
+                  content={message.question}
+                  position={"justify-start"}
+                />
+                <DialogueBox
+                  content={message.response}
+                  position={"justify-end"}
+                />
+              </div>
+            ))}
           </div>
           <div className="flex justify-center items-center  py-4">
             <form
@@ -92,8 +120,8 @@ export default function Analyzer() {
               <input
                 disabled={!isUploaded}
                 type="text"
-                placeholder="Your message..."
                 name="user_request"
+                placeholder="Your message..."
                 value={userRequest}
                 onChange={handleChange}
                 className="flex-1 focus:outline-none "
