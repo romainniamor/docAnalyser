@@ -1,9 +1,10 @@
 import { MdFileUpload } from "react-icons/md";
-import Button from "../../components/reusableUi/Button";
+import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef } from "react";
 import { sendFile, sendRequest } from "../../api/analyzerApi";
 import DialogueBox from "./DialogueBox";
+import LogoButton from "../../components/reusableUi/LogoButton";
 
 export default function Analyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,6 +57,13 @@ export default function Analyzer() {
     }
   };
 
+  const handleReset = () => {
+    setFileInfo(null);
+    setIsUploaded(false);
+    setUserRequest("");
+    setMessages([]);
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-[660px]  flex flex-col mt-10 bg-white rounded-lg shadow-lg overflow-hidden">
@@ -72,7 +80,7 @@ export default function Analyzer() {
             />
 
             <label htmlFor="fileInput">
-              <Button
+              <PrimaryButton
                 label="Upload File"
                 icon={<MdFileUpload />}
                 onClick={handleButtonClick}
@@ -82,12 +90,7 @@ export default function Analyzer() {
               <p className="text-sm text-gray-500">{fileInfo.fileName}</p>
             )}
           </div>
-          <button
-            className="text-xl text-gray-600"
-            onClick={() => setFileInfo(null)}
-          >
-            <GrPowerReset />
-          </button>
+          <LogoButton icon={<GrPowerReset />} onClick={handleReset} />
         </div>
         <div className="flex-1 bg-gradient-to-b from-transparent to-red-200">
           <div className="w-full h-[600px] overflow-y-scroll flex flex-col gap-3 p-4">
@@ -120,7 +123,7 @@ export default function Analyzer() {
                 onChange={handleChange}
                 className="flex-1 focus:outline-none "
               />
-              <Button label="Send" disable={!isUploaded} />
+              <PrimaryButton label="Send" disable={!isUploaded} />
             </form>
           </div>
         </div>

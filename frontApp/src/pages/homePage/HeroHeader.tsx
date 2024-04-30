@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Button from "../../components/reusableUi/Button";
+import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 
 export default function HeroHeader() {
   return (
@@ -14,7 +14,7 @@ export default function HeroHeader() {
           <p>💬 Ask our chatbot </p>
         </div>
         <Link to={"/analyzer"}>
-          <Button label="Try It!" />
+          <PrimaryButton label="Try It!" />
         </Link>
       </div>
     </div>
