@@ -11,7 +11,7 @@ export default function HeroHeader() {
         <div className="font-semibold">
           <p>🚀 Easy to use</p>
           <p>📁 Import your pdf documents</p>
-          <p>💬 Ask our chatbot </p>
+          <p>💬 Ask your pdf </p>
         </div>
         <Link to={"/analyzer"}>
           <PrimaryButton label="Try It!" />
