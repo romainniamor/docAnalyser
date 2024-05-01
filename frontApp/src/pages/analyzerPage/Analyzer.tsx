@@ -1,10 +1,11 @@
 import { MdFileUpload } from "react-icons/md";
-import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef, useEffect } from "react";
 import { sendFile, sendRequest } from "../../api/analyzerApi";
 import { scrollToBottom } from "../../utils/scrollToBottom";
+import { useMessages } from "../../stores/messages.store";
 
+import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 import LogoButton from "../../components/reusableUi/LogoButton";
 import Loader from "../../components/reusableUi/Loader";
 import Conversation from "./Conversation";
@@ -14,10 +15,15 @@ export default function Analyzer() {
   const [fileInfo, setFileInfo] = useState<File | null>(null as File | null);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [userRequest, setUserRequest] = useState<string>("");
-  const [messages, setMessages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const containerRef = useRef(null);
+
+  // const messages = useMessages((state) => state.messages);
+  // const addNewMessage = useMessages((state) => state.addNewMessage);
+  // const resetMessages = useMessages((state) => state.resetMessages);
+
+  const { messages, addNewMessage, resetMessages } = useMessages();
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]; // Récupération du fichier sélectionné
@@ -54,7 +60,7 @@ export default function Analyzer() {
       const data = await sendRequest(formData);
       const conversation = data.conversation;
       const lastMessages = conversation[conversation.length - 1];
-      setMessages([...messages, lastMessages]);
+      addNewMessage(lastMessages);
       setIsLoading(false);
       setUserRequest("");
     } catch (err) {
@@ -66,7 +72,7 @@ export default function Analyzer() {
     setFileInfo(null);
     setIsUploaded(false);
     setUserRequest("");
-    setMessages([]);
+    resetMessages();
   };
 
   useEffect(() => {
