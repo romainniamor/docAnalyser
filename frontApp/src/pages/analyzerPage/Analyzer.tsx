@@ -19,10 +19,6 @@ export default function Analyzer() {
 
   const containerRef = useRef(null);
 
-  // const messages = useMessages((state) => state.messages);
-  // const addNewMessage = useMessages((state) => state.addNewMessage);
-  // const resetMessages = useMessages((state) => state.resetMessages);
-
   const { messages, addNewMessage, resetMessages } = useMessages();
 
   const handleFileUpload = async (e) => {
