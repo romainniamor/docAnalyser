@@ -1,7 +1,7 @@
 import { IconType } from "react-icons";
 
 type LogoButtonProps = {
-  icon: IconType;
+  icon: IconType | JSX.Element;
   onClick: () => void;
 };
 
