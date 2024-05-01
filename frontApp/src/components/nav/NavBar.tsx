@@ -1,5 +1,6 @@
 import Logo from "./Logo";
 import { NavLink } from "react-router-dom";
+import Sticker from "./Sticker";
 
 export default function NavBar() {
   return (
@@ -11,21 +12,24 @@ export default function NavBar() {
           className={({ isActive }) => {
             return `${
               isActive ? "text-red-500 " : ""
-            }   hover:text-red-600 font-medium transition-all duration-300 ease-in-out`;
+            }   hover:text-red-600 font-semibold transition-all duration-300 ease-in-out`;
           }}
         >
           DocAnalyzer
         </NavLink>
-        <NavLink
-          to="/history"
-          className={({ isActive }) => {
-            return `${
-              isActive ? "text-red-600 " : ""
-            }   hover:text-red-500 font-medium transition-all duration-300 ease-in-out`;
-          }}
-        >
-          History
-        </NavLink>
+        <div className="relative">
+          <Sticker />
+          <NavLink
+            to="/history"
+            className={({ isActive }) => {
+              return `${
+                isActive ? "text-red-600 " : ""
+              }   hover:text-red-500 font-semibold transition-all duration-300 ease-in-out`;
+            }}
+          >
+            History
+          </NavLink>
+        </div>
       </div>
     </nav>
   );
