@@ -3,6 +3,7 @@ import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 import { GrPowerReset } from "react-icons/gr";
 import { useState, useRef, useEffect } from "react";
 import { sendFile, sendRequest } from "../../api/analyzerApi";
+import { scrollToBottom } from "../../utils/scrollToBottom";
 
 import LogoButton from "../../components/reusableUi/LogoButton";
 import Loader from "../../components/reusableUi/Loader";
@@ -68,15 +69,8 @@ export default function Analyzer() {
     setMessages([]);
   };
 
-  const scrollToBottom = () => {
-    if (!containerRef.current) {
-      return;
-    }
-    containerRef.current.scrollTop = containerRef.current.scrollHeight;
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(containerRef);
   }, [messages, isLoading]);
 
   return (
