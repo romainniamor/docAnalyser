@@ -14,7 +14,7 @@ export default function HeroHeader() {
           <p>💬 Ask your pdf </p>
         </div>
         <Link to={"/analyzer"}>
-          <PrimaryButton label="Try It!" />
+          <PrimaryButton label="Try It !" />
         </Link>
       </div>
     </div>
