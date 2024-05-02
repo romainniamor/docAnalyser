@@ -1,9 +1,7 @@
 from business.docToText import get_pdf_text, get_text_chunks
 from business.embedding import get_vectorstore, get_conversation_chain
-
-
+import datetime as dt
 from fastapi.middleware.cors import CORSMiddleware
-
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 
 app = FastAPI()
@@ -33,6 +31,9 @@ def read_root():
 async def upload_pdf(file: UploadFile = File(...)):
     global global_conversation_chain
 
+    #get uploaded date
+    current_date = dt.date.today()
+
     #get pdf text
     raw_text = get_pdf_text(file)
 
@@ -44,9 +45,8 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     #create conversation chain
     global_conversation_chain = get_conversation_chain(vectorestore)
-    print('global_conversation_chain', global_conversation_chain)
 
-    return {"message": "pdf uploaded and treated backend"}
+    return {"fileUploaded": file.filename, "date": current_date}
 
 
 @app.post("/user-request")
@@ -59,7 +59,7 @@ async def get_request(user_request: str = Form(...)):
         raise HTTPException(status_code=500, detail="Conversation chain not initialized")
     else:
 
-        print('global_conversation_chain', global_conversation_chain)
+
         response = global_conversation_chain({'question': user_request})
 
         chat = response['chat_history']
@@ -71,7 +71,7 @@ async def get_request(user_request: str = Form(...)):
                 "response": chat[i + 1].content if i + 1 < len(chat) else None
             }
             conversation.append(pair)
-        print('conversation', conversation)
+
 
     return {"conversation": conversation}
 
