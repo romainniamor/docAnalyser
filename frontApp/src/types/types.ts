@@ -4,7 +4,7 @@ export type NavLinkType = {
   hasSteaker?: boolean;
 };
 
-export type NavLinksType = NavLink[];
+export type NavLinksType = NavLinkType[];
 
 export type MessageType = {
   question: string;
