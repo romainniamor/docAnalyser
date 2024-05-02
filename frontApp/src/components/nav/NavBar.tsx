@@ -6,7 +6,7 @@ export default function NavBar() {
   return (
     <nav className="w-full py-3 px-5 bg-white border-b shadow-lg flex gap-5 items-center">
       <Logo />
-      <div className="flex ml-10 gap-3">
+      <div className="flex ml-10 gap-4">
         {navLinks.map((navLink, index) => (
           <NavItem
             key={index}
