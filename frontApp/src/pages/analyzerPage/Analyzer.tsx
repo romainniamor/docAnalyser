@@ -22,17 +22,27 @@ export default function Analyzer() {
   const { messages, addNewMessage, resetMessages } = useMessages();
 
   const handleFileUpload = async (e) => {
+    resetMessages();
     const file = e.target.files[0]; // Récupération du fichier sélectionné
     if (file) {
+      if (file.type !== "application/pdf") {
+        return;
+      }
       setFileInfo({
         fileName: file.name,
       });
     }
+
     const formData = new FormData();
     formData.append("file", file); // Ajout du fichier à formData
 
-    sendFile(formData);
-    setIsUploaded(true);
+    try {
+      await sendFile(formData);
+      setIsUploaded(true);
+    } catch (error) {
+      handleReset();
+      alert("Error uploading file", error);
+    }
   };
 
   const handleInputType = () => {
@@ -101,7 +111,9 @@ export default function Analyzer() {
               <p className="text-sm text-gray-500">{fileInfo.fileName}</p>
             )}
           </div>
-          <LogoButton icon={<GrPowerReset />} onClick={handleReset} />
+          {isUploaded && (
+            <LogoButton icon={<GrPowerReset />} onClick={handleReset} />
+          )}
         </div>
         <div className="flex-1 bg-gradient-to-b from-transparent to-red-200">
           <div

@@ -3,7 +3,7 @@ import logo from "../../assets/logo.png";
 
 export default function Logo() {
   return (
-    <Link to="/">
+    <Link to="home">
       <img
         src={logo}
         className="bg-transparent h-10 w-10"

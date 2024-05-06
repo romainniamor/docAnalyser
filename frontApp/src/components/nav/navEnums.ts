@@ -1,15 +1,15 @@
 export const navLinks = [
   {
     label: "Home",
-    to: "/",
+    to: "home",
   },
   {
     label: "DocAnalyzer",
-    to: "/analyzer",
+    to: "analyzer",
   },
   {
     label: "History",
-    to: "/history",
+    to: "history",
     hasSteaker: true,
   },
 ];

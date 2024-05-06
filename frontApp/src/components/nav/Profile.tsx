@@ -5,18 +5,16 @@ export default function Profile() {
   const { user } = useParams();
   return (
     <div className="flex gap-2 item-center">
-      <div className="text-sm flex flex-col items-center ">
-        <p>
+      <div className=" flex flex-col justify-center items-center leading-4">
+        <p className="font-medium">
           <span>Hello, </span>
           <span className="capitalize">{user}</span>
         </p>
         <Link to="/">
-          <button className="text-xs text-gray-400 hover:text-blue-400  ">
-            Log Out
-          </button>
+          <button className="text-sm text-gray-400   ">Log Out</button>
         </Link>
       </div>
-      <div className="text-gray-400  flex justify-center items-center">
+      <div className="text-gray-200  flex justify-center items-center">
         <BsPersonCircle className="w-9 h-9" />
       </div>
     </div>

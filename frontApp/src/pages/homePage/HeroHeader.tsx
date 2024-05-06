@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PrimaryButton from "../../components/reusableUi/PrimaryButton";
 
 export default function HeroHeader() {
+  const { user } = useParams();
   return (
     <div className="flex justify-center items-center py-16 h-[600px] w-full bg-gradient-to-b from-transparent to-red-100">
       <div className=" flex flex-col gap-4 w-[800px]">
@@ -13,7 +14,7 @@ export default function HeroHeader() {
           <p>📁 Import your pdf documents</p>
           <p>💬 Ask your pdf </p>
         </div>
-        <Link to={"/analyzer"}>
+        <Link to={`/${user}/analyzer`}>
           <PrimaryButton label="Try It !" />
         </Link>
       </div>
